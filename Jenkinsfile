@@ -15,12 +15,22 @@ pipeline {
                 }
             }
         }
-        stage("Docker Push") {
+        stage('Docker Push') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
-                    sh 'docker push snehalsalodiya/dockerpipeline'
-                    sh 'docker logout'
+                script {
+                
+                    def username = 'snehalsalodiya'
+                    def password = 'snehal@7850' 
+
+                    if (isUnix()) {
+                        sh "echo ${password} | docker login -u ${username} --password-stdin"
+                        sh 'docker push snehalsalodiya/dockerpipeline'
+                        sh 'docker logout'
+                    } else {
+                        bat "echo %password% | docker login -u %username% --password-stdin"
+                        bat 'docker push snehalsalodiya/dockerpipeline'
+                        bat 'docker logout'
+                    }
                 }
             }
         }
