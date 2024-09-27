@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage("Checkout") {
             steps {
-                git branch: 'main', url: 'https://github.com/snehalsalodiya/dockerpipeline_demo', credentialsId: 'github'
+                git branch: 'origin/main', url: 'https://github.com/snehalsalodiya/dockerpipeline_demo', credentialsId: 'github'
             }
         }
         stage("Build Image") {
