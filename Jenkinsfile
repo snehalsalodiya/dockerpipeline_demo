@@ -14,8 +14,14 @@ pipeline {
         stage("Build Image") {
             steps {
                 script {
-                    sh 'docker --version' // Check if Docker is available
-                    sh 'docker build -t snehalsalodiya/dockerpipeline .'
+                    // Check if Docker is available
+                    if (isUnix()) {
+                        sh 'docker --version'
+                        sh 'docker build -t snehalsalodiya/dockerpipeline .'
+                    } else {
+                        bat 'docker --version'
+                        bat 'docker build -t snehalsalodiya/dockerpipeline .'
+                    }
                 }
             }
         }
